@@ -8,7 +8,7 @@ public class Members {
     private int id, dob_month, dob_day, dob_year;
     private String name, city, state;
 
-    public Members(String city, int dob_day, int dob_month, int dob_year, int id, String name, String state) {
+    public Members(int id, String name, int dob_month, int dob_day, int dob_year, String city, String state) {
         this.city = city;
         this.dob_day = dob_day;
         this.dob_month = dob_month;
