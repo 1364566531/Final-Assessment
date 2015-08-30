@@ -10,4 +10,28 @@ public class Person {
         this.lastName  = lastName;
         this.house     = house;
     }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getHouse() {
+        return house.toString();
+    }
+
+    public void setHouse(House house) {
+        this.house = house;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 }
