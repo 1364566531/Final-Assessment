@@ -73,6 +73,8 @@ public class ListActivity extends Activity {
         show_color = preferences.getBoolean(COLOR, false);
         first_last = preferences.getBoolean(SORT, false);
 
+        // alessandro: you should also updated the buttons labels based on the shared preference
+
         list = (ListView) findViewById(R.id.list);
         Arrays.sort(PEOPLE, new PersonComparator());
         adapter = new ArrayAdapter(this, R.layout.listitem_member, R.id.text_house, PEOPLE) {
@@ -105,6 +107,7 @@ public class ListActivity extends Activity {
                             break;
                     }
                 }
+                // alessandro: is show_color is false you should use .setBackgroundColor(0)
 
                 return view;
             }

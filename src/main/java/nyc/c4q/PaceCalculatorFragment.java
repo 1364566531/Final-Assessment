@@ -16,6 +16,8 @@ import android.widget.EditText;
 public class PaceCalculatorFragment extends Fragment {
 
     private EditText distance, time_min, time_sec, pace_min, pace_sec;
+
+    // alessandro: do you need these variables to be global?
     private double input_distance, input_time_min, input_time_sec, input_pace_min, input_pace_sec;
 
     @Nullable

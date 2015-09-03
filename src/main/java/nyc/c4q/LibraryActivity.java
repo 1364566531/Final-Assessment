@@ -22,8 +22,13 @@ import java.util.List;
 public class LibraryActivity extends Activity {
     public EditText inputParameter;
     private TextView display;
+
+    // alessandro: do you really need this variable to be global?
     private List<Books> queryBooks;
+
+    // alessandro: do you really need this variable to be global?
     private List<Members> queryMembers;
+
     private BooksSQLiteHelper bhelper;
     private MembersSQLiteHelper mhelper;
 
@@ -34,8 +39,12 @@ public class LibraryActivity extends Activity {
 
         inputParameter = (EditText) findViewById(R.id.input_parameter);
         display = (TextView) findViewById(R.id.text_display);
+
+        // alessandro: why are you creating 2 databases? you should use a single DB with multiple tables
         bhelper = BooksSQLiteHelper.getInstance(LibraryActivity.this);
         mhelper = MembersSQLiteHelper.getInstance(LibraryActivity.this);
+
+        // alessandro: why are you creating the database every time?
 
         // Load Books to Database
         new AsyncTask<Void, Void, List<Books>>(){
@@ -230,6 +239,9 @@ public class LibraryActivity extends Activity {
 
     public String loadJson(String file) {
         String json = null;
+
+        // alessandro: just pass the filename instead of a string. In this way
+        // you don't need to have an if/else
 
         if (file.equals("books")) {
             try {

@@ -12,6 +12,7 @@ public class PaceCalculatorActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pace_calculator);
 
+        // alessandro: why are you not using the support library?
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         PaceCalculatorFragment fragment = new PaceCalculatorFragment();

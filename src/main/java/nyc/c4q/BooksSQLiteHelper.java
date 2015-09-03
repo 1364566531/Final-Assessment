@@ -138,6 +138,8 @@ public class BooksSQLiteHelper extends SQLiteOpenHelper {
         Cursor cursor = db.query(
                 DataEntry.TABLE_NAME, projection, find, what, null, null, DataEntry.COLUMN_PUBLISHER);
 
+        // alessandro: you already have the projection filled, you shouldn't use getColumnIndex. it's slow
+
         while (cursor.moveToNext()) {
             if (cursor.getInt(cursor.getColumnIndex(DataEntry.COLUMN_CHECKEDOUT)) > 0) {
                 books.add(new Books(cursor.getInt(cursor.getColumnIndex(DataEntry.COLUMN_ID)),
