@@ -13,6 +13,7 @@ public class PaceCalculatorActivity extends FragmentActivity {
         setContentView(R.layout.activity_pace_calculator);
 
         // alessandro: why are you not using the support library?
+        // you should have used getSupportFragmentManager here
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         PaceCalculatorFragment fragment = new PaceCalculatorFragment();

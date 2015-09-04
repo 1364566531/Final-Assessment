@@ -59,6 +59,7 @@ public class PaceCalculatorFragment extends Fragment {
                         pace_min.setText(pace.substring(0, index));
 
                         String sec = "0" + pace.substring(index);
+                        // alessandro: pace_sec shoud display an integer, not a float
                         pace_sec.setText(Float.valueOf(sec) * 60 + "");
                     } else {
                         pace_min.setText(pace);

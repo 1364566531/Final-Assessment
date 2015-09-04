@@ -107,7 +107,7 @@ public class ListActivity extends Activity {
                             break;
                     }
                 }
-                // alessandro: is show_color is false you should use .setBackgroundColor(0)
+                // alessandro: if show_color is false you should use .setBackgroundColor(0)
 
                 return view;
             }
@@ -126,6 +126,7 @@ public class ListActivity extends Activity {
         public void onClick(View v) {
             first_last = !first_last;
 
+            // alessandro: it's always a good practice to export the strings into strings.xml
             if (!first_last)
                 name_sort.setText("Last, First");
             else
@@ -157,6 +158,9 @@ public class ListActivity extends Activity {
         public int compare(Person one, Person two) {
             int result;
 
+            // alessandro: this class "PersonComparator" cannot be reused by other classes because
+            // it has an hard reference to ListActivity's first_last variable.
+            // It's better to pass this variable as constructor of this class instead.
             if (first_last) {
                 result = one.getFirstName().compareTo(two.getFirstName());
             } else {
