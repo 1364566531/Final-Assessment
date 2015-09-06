@@ -13,7 +13,7 @@
     <string name="hint_distance">miles</string>
     <string name="hint_min">mm</string>
     <string name="hint_sec">ss</string>
-    <string name="hint_parameter">Parameter</string>
+    <string name="hint_parameter">Book Title, isbn or Member name</string>
 
     <string name="calculate">Calculate</string>
     <string name="getMember">Get Member Info</string>
