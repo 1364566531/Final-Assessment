@@ -1,48 +1,57 @@
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_pace_calculator"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="nyc.c4q.LibraryActivity"
-    >
+    android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/input_parameter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_parameter"
-        />
-
-    <Button
-        android:id="@+id/button_getMember"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/getMember"
-        android:onClick="button_getMember_onClick"
-        />
-
-    <Button
-        android:id="@+id/button_getBook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/getBook"
-        android:onClick="button_getBook_onClick"
-        />
-
-    <Button
-        android:id="@+id/button_getCheckedOut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/getCheckedOut"
-        android:onClick="button_getCheckedOut_onClick"
-        />
-
-    <TextView
-        android:id="@+id/text_display"
+    <LinearLayout
+        android:id="@+id/fragment_pace_calculator"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        tools:context="nyc.c4q.LibraryActivity"
+        >
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/input_parameter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_parameter"
+            android:singleLine="true"
+            />
+
+        <Button
+            android:id="@+id/button_getMember"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="button_getMember_onClick"
+            android:text="@string/getMember"
+            />
+
+        <Button
+            android:id="@+id/button_getBook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="button_getBook_onClick"
+            android:text="@string/getBook"
+            />
+
+        <Button
+            android:id="@+id/button_getCheckedOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="button_getCheckedOut_onClick"
+            android:text="@string/getCheckedOut"
+            />
+
+        <TextView
+            android:id="@+id/text_display"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </LinearLayout>
+</ScrollView>
