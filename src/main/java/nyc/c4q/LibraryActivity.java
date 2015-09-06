@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RawRes;
 import android.text.TextUtils;
@@ -31,6 +32,10 @@ public class LibraryActivity extends Activity {
     private DatabaseHelper databaseHelper;
     private static final DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
 
+    public static boolean isRoboUnitTest() {
+        return "robolectric".equals(Build.FINGERPRINT);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +47,14 @@ public class LibraryActivity extends Activity {
 
         if (databaseHelper.isEmpty()) {
             new LoadDataAsyncTask().execute();
+        } else {
+            onDatabaseLoaded();
+        }
+    }
+
+    private void onDatabaseLoaded() {
+        if (isRoboUnitTest()) {
+            return;
         }
     }
 
@@ -50,10 +63,12 @@ public class LibraryActivity extends Activity {
         imm.hideSoftInputFromWindow(inputParameter.getWindowToken(), 0);
     }
 
-    public void checkOut(int memberId, int bookId) {
+    public long checkOut(int memberId, int bookId) {
         // TODO This method is called when the member with the given ID checks
         //      out the book with the given ID. Update the system accordingly.
         //      The due date for the book is two weeks from today.
+        return databaseHelper.checkOut(memberId, bookId);
+
     }
 
     public boolean checkIn(int memberId, int bookId) {
@@ -62,7 +77,7 @@ public class LibraryActivity extends Activity {
         //      the member is returning the book on time, return true. If it's
         //      late, return false.
 
-        return false;
+        return databaseHelper.checkIn(memberId, bookId);
     }
 
     public void button_getMember_onClick(View view) {
@@ -242,6 +257,8 @@ public class LibraryActivity extends Activity {
 
             SQLUtils.printCursorAndReset("TABLE BOOK", c);
             IOUtils.closeQuietly(c);
+
+            onDatabaseLoaded();
 
         }
 

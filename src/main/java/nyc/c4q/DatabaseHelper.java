@@ -3,6 +3,7 @@ package nyc.c4q;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
@@ -10,10 +11,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    public static final int VERSION = 2;
+    public static final int VERSION = 3;
     private static final String LOG_TAG = DatabaseHelper.class.getSimpleName();
 
     public DatabaseHelper(final Context context) {
@@ -23,7 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onConfigure(final SQLiteDatabase db) {
         super.onConfigure(db);
-        db.setForeignKeyConstraintsEnabled(true);
+        db.execSQL("PRAGMA foreign_keys=ON;");
     }
 
     @Override
@@ -209,6 +211,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             new String[]{String.valueOf(id)}, null, null, BookStatusColumns.DUE_DATE + " ASC");
     }
 
+    public long checkOut(final int memberId, final int bookId) throws SQLiteConstraintException {
+        final SQLiteDatabase db = getWritableDatabase();
+        if (null == db || !db.isOpen()) {
+            return -1;
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, 14);
+
+        ContentValues values = new ContentValues();
+        values.put(BookStatusColumns.BOOK_ID, bookId);
+        values.put(BookStatusColumns.CHECKED_STATUS, 1);
+        values.put(BookStatusColumns.CHECKED_MEMBER_ID, memberId);
+        values.put(BookStatusColumns.CHECKED_DATE, DateTimeUtils.toSqlDateTime(new Date()));
+        values.put(BookStatusColumns.DUE_DATE, DateTimeUtils.toSqlDateTime(calendar.getTime()));
+
+        return db.insertWithOnConflict(BookStatusColumns.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_FAIL);
+    }
+
+    public boolean checkIn(final int memberId, final int bookId) {
+        final SQLiteDatabase db = getWritableDatabase();
+        if (null == db || !db.isOpen()) {
+            return false;
+        }
+
+        return db.delete(
+            BookStatusColumns.TABLE_NAME,
+            BookStatusColumns.BOOK_ID + "=? AND " + BookStatusColumns.CHECKED_MEMBER_ID + "=?",
+            new String[]{String.valueOf(bookId), String.valueOf(memberId)}) == 1;
+    }
+
     public static final class MemberColumns {
         static final String TABLE_NAME = "members";
         public static final String _ID = "member_id";
@@ -372,12 +405,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "CREATE TABLE IF NOT EXISTS "
                     + TABLE_NAME + "("
                     + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + BOOK_ID + " INTEGER DEFAULT 0 REFERENCES "
-                    + BookColumns.TABLE_NAME + "(" + BookColumns._ID + ") ON DELETE CASCADE, "
+                    + BOOK_ID + " INTEGER UNIQUE NOT NULL,"
                     + CHECKED_STATUS + " INTEGER NOT NULL DEFAULT 0, "
                     + CHECKED_MEMBER_ID + " INTEGER, "
                     + CHECKED_DATE + " DATETIME, "
-                    + DUE_DATE + " DATETIME "
+                    + DUE_DATE + " DATETIME, "
+                    + "FOREIGN KEY(" + BOOK_ID + ") REFERENCES "
+                    + BookColumns.TABLE_NAME + "(" + BookColumns._ID + ") ON DELETE CASCADE, "
+                    + "FOREIGN KEY(" + CHECKED_MEMBER_ID + ") REFERENCES "
+                    + MemberColumns.TABLE_NAME + "(" + MemberColumns._ID + ") ON DELETE RESTRICT "
+                    + ")");
+
+            db.execSQL(
+                "CREATE INDEX status_book_id_index ON " + BookStatusColumns.TABLE_NAME + "(" + BookStatusColumns.BOOK_ID + ")");
+            db.execSQL(
+                "CREATE INDEX status_member_id_index ON " + BookStatusColumns.TABLE_NAME + "(" + BookStatusColumns.CHECKED_MEMBER_ID
                     + ")");
         }
 
