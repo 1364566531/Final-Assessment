@@ -14,8 +14,11 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
@@ -90,18 +93,22 @@ public class Part3LibraryTests {
         input.setText("Millard Fillmore");
         buttonCheckedOut.callOnClick();
 
+        // alessandro: wrong test. it should take into consideration the locale date format
+
+        final DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
+
         Assertions.assertThat(display).containsText(
             "name: Millard Fillmore\n" +
             "-----\n" +
             "title: The Tiger's Wife\n" +
             "author: Téa Obreht\n" +
-            "checkout date: 8/11/2015\n" +
-            "due date: 8/25/2015\n" +
+            "checkout date: "+dateFormatter.format(new Date(115, 7, 11))+"\n" +
+            "due date: "+dateFormatter.format(new Date(115, 7, 25))+"\n" +
             "-----\n" +
             "title: Shadows in Flight (Ender's Shadow, #5)\n" +
             "author: Orson Scott Card\n" +
-            "checkout date: 8/19/2015\n" +
-            "due date: 9/2/2015"
+            "checkout date: " + dateFormatter.format(new Date(115, 7, 19)) + "\n" +
+            "due date: "+dateFormatter.format(new Date(115, 8, 2))+""
         );
     }
 
