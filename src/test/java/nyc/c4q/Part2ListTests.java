@@ -27,7 +27,7 @@ import static org.hamcrest.Matchers.notNullValue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest = "src/main/AndroidManifest.xml", emulateSdk = 18)
+@Config(manifest = "src/main/AndroidManifest.xml", sdk = 18)
 public class Part2ListTests {
 
     private ListActivity activity;
