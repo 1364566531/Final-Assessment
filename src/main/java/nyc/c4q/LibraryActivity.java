@@ -283,8 +283,6 @@ public class LibraryActivity extends Activity {
                 return false;
             }
 
-            databaseHelper.empty(databaseHelper.getWritableDatabase());
-
             db.beginTransaction();
 
             try {

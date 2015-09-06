@@ -60,7 +60,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS " + BookColumns.TABLE_NAME);
             db.execSQL("DROP TABLE IF EXISTS " + MemberColumns.TABLE_NAME);
             db.execSQL("DROP TABLE IF EXISTS " + BookStatusColumns.TABLE_NAME);
-            onCreate(db);
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
